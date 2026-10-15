@@ -84,7 +84,7 @@ foreach ($entry in $files.GetEnumerator()) {
     }
 }
 
-$ini = Get-Content -LiteralPath $files['OptiScaler.ini'] -Raw
+$ini = Get-Content -LiteralPath $files['OptiScaler.ini'] -Raw -Encoding UTF8
 if ($ini -match '(?mi)^Enabled=true\s*$') { throw 'A feature is enabled in the default INI.' }
 foreach ($key in @('FinishedPicture', 'DeferredDLSS', 'UnlockPasses', 'AdaMfgUnlock', 'AdaFlipMeteringPatch', 'SpatialCompression')) {
     if ($ini -match "(?mi)^$key=true\s*$") { throw "Experimental option $key is enabled in the default INI." }
@@ -101,7 +101,7 @@ if (-not $EnableRtx40Mfg) {
     $ini = $ini -replace '(?m)^; Experimental built-in RTX 40 MFG unlock[^\r\n]*\r?\n', ''
     $ini = $ini -replace '(?m)^AdaMfgUnlock=[^\r\n]*\r?\n', ''
     $ini = $ini -replace '(?ms)^; Frame timing fix for the extra frames.*?^AdaFlipMeteringPatch=[^\r\n]*\r?\n', ''
-    [IO.File]::WriteAllText((Join-Path $stage 'OptiScaler.ini'), $ini, [Text.UTF8Encoding]::new($false))
+    [IO.File]::WriteAllText((Join-Path $stage 'OptiScaler.ini'), $ini, [Text.UTF8Encoding]::new($true))
 }
 [IO.File]::WriteAllText((Join-Path $stage '!! EXTRACT ALL FILES TO GAME FOLDER !!'), '')
 
