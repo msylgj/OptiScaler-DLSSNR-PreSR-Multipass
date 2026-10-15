@@ -17,6 +17,58 @@ int main(int argc, char** argv)
     assert(MenuLocalization::Translate("OptiScaler - Press Insert to open menu").find("Insert") != std::string::npos);
     assert(MenuLocalization::Translate("Press D:\\Games\\{1}\\game.exe for more info").find("D:\\Games\\{1}\\game.exe") != std::string::npos);
 
+    // Replay complete strings from v0.8.91 producers, not isolated printf arguments.
+    const std::pair<const char*, const char*> branchCases[] = {
+        { "Auto (reuse Blackwell kernel)", "自动（复用 Blackwell 内核）" },
+        { "Applied: rewrite blend weight, 2 descriptor(s)", "已应用：重写混合权重，2 个描述符" },
+        { "Applied: reuse Blackwell kernel, 3 kernel group(s)", "已应用：复用 Blackwell 内核，3 组内核" },
+        { "Not applied: PTX is 2048 bytes, expected 4096.", "未应用：PTX 为 2048 字节，预期为 4096。" },
+        { "Not applied: found 2 midpoint multiplies, expected 4.", "未应用：找到 2 处中点乘法，预期为 4。" },
+        { "Not applied: no compatible Blackwell interpolation kernel image.", "未应用：没有兼容的 Blackwell 插值内核映像。" },
+        { "Streamline plugin ceiling: patched.", "Streamline 插件帧数上限：已修补。" },
+        { "AUTO", "自动" },
+        { "ON", "开启" },
+        { "ON 4x", "开启 4x" },
+        { "Rendered frame: 10.00 ms", "渲染帧：10.00 ms" },
+        { "Rendered frame: 10.00 ms (NR overlaps/exceeds this interval)",
+          "渲染帧：10.00 ms（NR 与此间隔重叠或超出此间隔）" },
+        { "Current method: Game's XeLL (RTSS) (inactive)", "当前方式：游戏的 XeLL (RTSS)（未生效）" },
+        { "Running.  (model running, edit hidden)", "正在运行。（模型运行中，改动已隐藏）" },
+        { "Running natively on Vulkan - 12.5 ms elapsed  (model running, edit hidden)",
+          "正在 Vulkan 上原生运行 - 耗时 12.5 ms（模型运行中，改动已隐藏）" },
+        { "Private upscale: waiting for NR evaluation; clean SR frame retained",
+          "独立放大：正在等待 NR 计算；保留未修改的 SR 帧" },
+        { "Private upscale: running: 1280x720 contribution -> private DLSS -> 1920x1080; applied after SR",
+          "独立放大：运行中：1280x720 改动 → 独立的 DLSS → 1920x1080；在 SR 之后应用" },
+        { "Private upscale: private DLSS creation failed: CreateFeature returned 0xBAD00001; clean SR frame retained",
+          "独立放大：独立的 DLSS 创建失败：CreateFeature 返回 0xBAD00001；保留未修改的 SR 帧" },
+        { "Private upscale: private DLSS creation failed: NGX initialization or required entry point unavailable; clean SR frame retained",
+          "独立放大：独立的 DLSS 创建失败：NGX 初始化或所需入口点不可用；保留未修改的 SR 帧" },
+        { "Private DLSS SR: EvaluateFeature returned 0xBAD00002", "独立 DLSS SR：EvaluateFeature 返回 0xBAD00002" },
+        { "Fallback to ordinary NR: NGX rejected the packed model input", "回退至普通 NR：NGX 拒绝了打包模型输入" },
+        { "Unavailable: invalid frame or global scale", "不可用：帧或全局缩放比例无效" },
+        // Vulkan displays the same reason without the DX12 prefix.
+        { "invalid frame or global scale", "帧或全局缩放比例无效" },
+        { "Spatial compression 1920x1080 → 1280x720 (44.4% pixels)", "空间压缩 1920x1080 → 1280x720（44.4% 像素）" },
+        { "Output Scaling is DISABLED, Target Res: 1920x1080 (1.50)\nJitter Count: 8",
+          "输出缩放已禁用，目标分辨率：1920x1080（1.50）\n抖动次数：8" },
+        { "Designed primarily for downscaling.\nRetains good contrast with minimal artefacts, but softer than Lanczos.\n\nOnly FSR1 and Bicubic are supported when Ratio is below 1.0.",
+          "主要为缩小设计。\n能保持较好对比度，瑕疵很少，但比 Lanczos 更柔和。\n\n比例低于 1.0 时，仅支持 FSR1 和双三次。" },
+        { "You are missing the following dlls from the streamline folder:\n- sl.dlss.dll\n- sl.dlss_g.dll\n",
+          "streamline 文件夹缺少以下 DLL：\n- sl.dlss.dll\n- sl.dlss_g.dll\n" },
+    };
+    for (const auto& [source, expected] : branchCases)
+    {
+        const auto actual = MenuLocalization::Translate(source);
+        if (actual != expected)
+            std::cerr << "Translation mismatch: " << source << "\nActual: " << actual << "\nExpected: " << expected << '\n';
+        assert(actual == expected);
+    }
+    // Removed main-only features must not survive through an obsolete catch-all.
+    assert(MenuLocalization::Translate("Residual DLSS: not started (NR frames 2, skipped 1)").empty());
+    assert(MenuLocalization::Translate("Pre-SR changes: not started (NR frames 2, skipped 1)").empty());
+    assert(MenuLocalization::messages.count("Kernel Image") == 0);
+
     ImGui::CreateContext();
     auto& io = ImGui::GetIO();
     io.IniFilename = nullptr;
