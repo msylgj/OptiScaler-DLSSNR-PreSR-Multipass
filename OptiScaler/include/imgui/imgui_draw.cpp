@@ -35,6 +35,7 @@ Index of this file:
 #include "imgui.h"
 #ifndef IMGUI_DISABLE
 #include "imgui_internal.h"
+#include "../../menu/localization/Localization.h"
 #ifdef IMGUI_ENABLE_FREETYPE
 #include "misc/freetype/imgui_freetype.h"
 #endif
@@ -5390,6 +5391,7 @@ const char* ImFont::CalcWordWrapPosition(float size, const char* text, const cha
 
 ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, const char* text_begin, const char* text_end, const char** remaining)
 {
+    const MenuLocalization::Text localized(text_begin, text_end, remaining == NULL);
     if (!text_end)
         text_end = text_begin + ImStrlen(text_begin); // FIXME-OPT: Need to avoid this.
 
@@ -5514,6 +5516,7 @@ void ImFont::RenderChar(ImDrawList* draw_list, float size, const ImVec2& pos, Im
 // Note: as with every ImDrawList drawing function, this expects that the font atlas texture is bound.
 void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, ImU32 col, const ImVec4& clip_rect, const char* text_begin, const char* text_end, float wrap_width, bool cpu_fine_clip)
 {
+    const MenuLocalization::Text localized(text_begin, text_end);
     // Align to be pixel perfect
 begin:
     float x = IM_TRUNC(pos.x);
