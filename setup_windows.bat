@@ -270,7 +270,7 @@ if "%enablingSpoofing%"=="2" (
         pause
     )
 
-    powershell -Command "(Get-Content '%configFile%') -replace 'Dxgi=auto', 'Dxgi=false' | Set-Content '%configFile%'"
+    powershell -Command "(Get-Content '%configFile%' -Encoding UTF8) -replace 'Dxgi=auto', 'Dxgi=false' | Set-Content '%configFile%' -Encoding UTF8"
 )
 
 REM Decide whether to run OptiPatcher
@@ -358,7 +358,7 @@ if "!OPTI_MATCH!"=="YES" (
             echo OptiPatcher.asi downloaded successfully.
             echo Enabling ASI loading in OptiScaler.ini...
             if exist "%configFile%" (
-                powershell -Command "(Get-Content '%configFile%') -replace 'LoadAsiPlugins=auto', 'LoadAsiPlugins=true' | Set-Content '%configFile%'"
+                powershell -Command "(Get-Content '%configFile%' -Encoding UTF8) -replace 'LoadAsiPlugins=auto', 'LoadAsiPlugins=true' | Set-Content '%configFile%' -Encoding UTF8"
                 echo Successfully enabled ASI loading in OptiScaler.ini^^!
             ) else (
                 echo Warning: OptiScaler.ini not found, could not enable LoadAsiPlugins.
