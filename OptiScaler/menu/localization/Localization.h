@@ -25,13 +25,13 @@ inline thread_local bool suppressed = false;
 
 class UntranslatedText
 {
-        bool previous;
+    bool previous;
 
-    public:
-        explicit UntranslatedText(bool suppress) : previous(suppressed) { suppressed |= suppress; }
-        ~UntranslatedText() { suppressed = previous; }
-        UntranslatedText(const UntranslatedText&) = delete;
-        UntranslatedText& operator=(const UntranslatedText&) = delete;
+  public:
+    explicit UntranslatedText(bool suppress) : previous(suppressed) { suppressed |= suppress; }
+    ~UntranslatedText() { suppressed = previous; }
+    UntranslatedText(const UntranslatedText&) = delete;
+    UntranslatedText& operator=(const UntranslatedText&) = delete;
 };
 
 inline bool Load(const std::filesystem::path& path)
@@ -118,9 +118,9 @@ inline std::string Translate(std::string_view source)
         {
             const auto& delimiter = pattern.parts[index];
             const bool last = index + 1 == pattern.parts.size();
-            const size_t end = last ? (source.size() >= delimiter.size() ? source.size() - delimiter.size()
-                                                                                       : std::string::npos)
-                                    : source.find(delimiter, position);
+            const size_t end =
+                last ? (source.size() >= delimiter.size() ? source.size() - delimiter.size() : std::string::npos)
+                     : source.find(delimiter, position);
             if (end == std::string::npos || end < position || source.substr(end, delimiter.size()) != delimiter)
             {
                 matched = false;
@@ -171,4 +171,4 @@ class Text
         }
     }
 };
-}
+} // namespace MenuLocalization
