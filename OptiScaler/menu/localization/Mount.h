@@ -44,4 +44,4 @@ inline void Mount(const std::filesystem::path& dllDirectory, ImGuiIO& io, float 
     (void) size;
 #endif
 }
-}
+} // namespace MenuLocalization
