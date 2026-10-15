@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "menu_common.h"
+#include "localization/Mount.h"
 #include <framegen/dlssg/MfgUnlock.h>
 #include <framegen/dlssg/AmpereMfgLoader.h>
 #include <dlssnr/DlssNr_ExposureScan.h>
@@ -7970,6 +7971,9 @@ void MenuCommon::Init(HWND InHwnd, bool isUWP)
                                                                          fontSize, &fontConfig);
         }
     }
+
+    MenuLocalization::Mount(Util::DllPath().parent_path(), io,
+                            Config::Instance()->UseHQFont.value_or_default() ? fontSize : 13.0f);
 
     if (!Config::Instance()->OverlayMenu.value_or_default())
     {

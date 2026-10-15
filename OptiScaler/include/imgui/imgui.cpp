@@ -1116,6 +1116,7 @@ CODE
 #endif
 
 #include "imgui.h"
+#include "../../menu/localization/Localization.h"
 #ifndef IMGUI_DISABLE
 #include "imgui_internal.h"
 
@@ -3794,6 +3795,9 @@ void ImGui::RenderTextEllipsis(ImDrawList* draw_list, const ImVec2& pos_min, con
     ImGuiContext& g = *GImGui;
     if (text_end_full == NULL)
         text_end_full = FindRenderedTextEnd(text);
+    const char* original_text = text;
+    const char* original_text_end = text_end_full;
+    const MenuLocalization::Text localized(text, text_end_full);
     const ImVec2 text_size = text_size_if_known ? *text_size_if_known : CalcTextSize(text, text_end_full, false, 0.0f);
 
     //draw_list->AddLine(ImVec2(pos_max.x, pos_min.y - 4), ImVec2(pos_max.x, pos_max.y + 6), IM_COL32(0, 0, 255, 255));
@@ -3836,7 +3840,7 @@ void ImGui::RenderTextEllipsis(ImDrawList* draw_list, const ImVec2& pos_min, con
     }
 
     if (g.LogEnabled)
-        LogRenderedText(&pos_min, text, text_end_full);
+        LogRenderedText(&pos_min, original_text, original_text_end);
 }
 
 // Render a rectangle shaped with optional rounding and borders

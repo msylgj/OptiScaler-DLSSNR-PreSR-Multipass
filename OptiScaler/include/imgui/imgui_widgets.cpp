@@ -41,6 +41,7 @@ Index of this file:
 #endif
 
 #include "imgui.h"
+#include "../../menu/localization/Localization.h"
 #ifndef IMGUI_DISABLE
 #include "imgui_internal.h"
 
@@ -4671,7 +4672,10 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         // Find initial scroll position for right alignment
         state->Scroll = ImVec2(0.0f, 0.0f);
         if (flags & ImGuiInputTextFlags_ElideLeft)
+        {
+            const MenuLocalization::UntranslatedText untranslated(true);
             state->Scroll.x += ImMax(0.0f, CalcTextSize(buf).x - frame_size.x + style.FramePadding.x * 2.0f);
+        }
 
         // Recycle existing cursor/selection/undo stack but clamp position
         // Note a single mouse click will override the cursor/position immediately by calling stb_textedit_click handler.
@@ -5258,6 +5262,7 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
     // FIXME: We could remove the '&& render_cursor' to keep rendering selection when inactive.
     if (render_cursor || render_selection)
     {
+        const MenuLocalization::UntranslatedText untranslated(!is_displaying_hint);
         IM_ASSERT(state != NULL);
         if (!is_displaying_hint)
             buf_display_end = buf_display + state->TextLen;
@@ -5413,6 +5418,7 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
     }
     else
     {
+        const MenuLocalization::UntranslatedText untranslated(!is_displaying_hint);
         // Render text only (no selection, no cursor)
         if (is_multiline)
             text_size = ImVec2(inner_size.x, InputTextCalcTextLenAndLineCount(buf_display, &buf_display_end) * g.FontSize); // We don't need width

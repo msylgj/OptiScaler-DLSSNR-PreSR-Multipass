@@ -137,6 +137,9 @@ foreach ($d in @("Licenses", "OptiScaler")) {
     Copy-Item -LiteralPath $source -Destination "$stage\$d" -Recurse -Force
 }
 
+New-Item -ItemType Directory -Force -Path "$stage\OptiScaler\locales" | Out-Null
+Copy-Item -LiteralPath "$root\OptiScaler\locales\zh-CN.json" -Destination "$stage\OptiScaler\locales\zh-CN.json" -Force
+
 Copy-Item $forwarder "$stage\nvngx.dll_dlssnr.dll" -Force
 Copy-Item -LiteralPath "$root\docs" -Destination "$stage\docs" -Recurse -Force
 New-Item -ItemType Directory -Path "$stage\redist\streamline" -Force | Out-Null
