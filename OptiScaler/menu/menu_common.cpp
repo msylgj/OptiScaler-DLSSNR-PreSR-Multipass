@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <dlssnr/DlssNr_MenuOverlay.h>
 #include "menu_common.h"
+#include "localization/Mount.h"
 #if defined(OPTISCALER_RTX40_MFG)
 #include <framegen/dlssg/MfgUnlock.h>
 #endif
@@ -8076,6 +8077,9 @@ void MenuCommon::Init(HWND InHwnd, bool isUWP)
                                                                          fontSize, &fontConfig);
         }
     }
+
+    MenuLocalization::Mount(Util::DllPath().parent_path(), io,
+                            Config::Instance()->UseHQFont.value_or_default() ? fontSize : 13.0f);
 
     if (!Config::Instance()->OverlayMenu.value_or_default())
     {
