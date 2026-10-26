@@ -8,6 +8,11 @@ on:
         required: true
         default: 'nr-dev'
         type: string
+      EnableRtx40Mfg:
+        description: 'Include the RTX 40 MFG unlock in the package'
+        required: true
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -26,7 +31,10 @@ jobs:
         shell: powershell
         env:
           PACKAGE_VERSION: ${{ inputs.version }}
-        run: ./package_release.ps1 -Version $env:PACKAGE_VERSION
+          ENABLE_RTX40_MFG: ${{ inputs.EnableRtx40Mfg }}
+        run: |
+          $enableRtx40Mfg = $env:ENABLE_RTX40_MFG -eq 'true'
+          ./package_release.ps1 -Version $env:PACKAGE_VERSION -EnableRtx40Mfg:$enableRtx40Mfg
       - name: Upload archive
         uses: actions/upload-artifact@v4
         with:
