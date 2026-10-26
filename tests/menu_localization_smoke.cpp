@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     assert(MenuLocalization::Translate("OptiScaler - Press Insert to open menu").find("Insert") != std::string::npos);
     assert(MenuLocalization::Translate("Press D:\\Games\\{1}\\game.exe for more info").find("D:\\Games\\{1}\\game.exe") != std::string::npos);
 
-    // Replay complete strings from v0.8.91 producers, not isolated printf arguments.
+    // Replay complete strings from v0.8.10 producers, not isolated printf arguments.
     const std::pair<const char*, const char*> branchCases[] = {
         { "Auto (reuse Blackwell kernel)", "自动（复用 Blackwell 内核）" },
         { "Applied: rewrite blend weight, 2 descriptor(s)", "已应用：重写混合权重，2 个描述符" },
@@ -26,6 +26,16 @@ int main(int argc, char** argv)
         { "Not applied: found 2 midpoint multiplies, expected 4.", "未应用：找到 2 处中点乘法，预期为 4。" },
         { "Not applied: no compatible Blackwell interpolation kernel image.", "未应用：没有兼容的 Blackwell 插值内核映像。" },
         { "Streamline plugin ceiling: patched.", "Streamline 插件帧数上限：已修补。" },
+        { "Denoise at native, then NR, then upscale", "原生分辨率降噪 → NR → 超分辨率" },
+        { "Denoise first: not started", "优先降噪：尚未开始" },
+        { "Denoise first: waiting for retired GPU work", "优先降噪：正在等待先前的 GPU 工作完成" },
+        { "Denoise first: running: DLSS 1:1 -> NR -> edit onto raw render -> game upscaler (bilinear, ratio, jitter shift on)",
+          "优先降噪：DLSS 1:1 → NR → 改动叠加至原始渲染 → 游戏超分辨率后端 (bilinear, ratio, jitter shift on)" },
+        { "Edge-aware", "边缘感知" },
+        { "Halo suppression (experimental)", "光晕抑制（实验性）" },
+        { "the halo filter could not allocate its working image", "光晕过滤器无法分配工作图像" },
+        { "Automatic", "自动" },
+        { "Optimized", "优化模型" },
         { "AUTO", "自动" },
         { "ON", "开启" },
         { "ON 4x", "开启 4x" },
